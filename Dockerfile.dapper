@@ -5,15 +5,17 @@ ARG DOWNLOADS=/usr/src/downloads
 ARG LINUX_FIRMWARE=linux-firmware=1.173.18
 ARG LINUX_SOURCE=linux-source-5.0.0=5.0.0-47.51~18.04.1
 
+RUN sed -i -E 's/(archive|security).ubuntu.com/mirrors.163.com/g' /etc/apt/sources.list
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN set -x \
- && apt-get --assume-yes update \
- && apt-get --assume-yes download \
-    ${LINUX_FIRMWARE} \
-    ${LINUX_SOURCE} \
- && mkdir -vp ${DOWNLOADS} \
- && mv -vf linux-firmware* ${DOWNLOADS}/ubuntu-firmware.deb \
- && mv -vf linux-source* ${DOWNLOADS}/ubuntu-kernel.deb
+   && apt-get --assume-yes update \
+   && apt-get --assume-yes download \
+   ${LINUX_FIRMWARE} \
+   ${LINUX_SOURCE} \
+   && mkdir -vp ${DOWNLOADS} \
+   && mv -vf linux-firmware* ${DOWNLOADS}/ubuntu-firmware.deb \
+   && mv -vf linux-source* ${DOWNLOADS}/ubuntu-kernel.deb
 
 FROM ${APT_GCC}
 ARG DOWNLOADS=/usr/src/downloads
@@ -22,26 +24,29 @@ ARG WG_URL="https://git.zx2c4.com"
 ARG WG_REPO="wireguard-linux-compat"
 ARG WG_TAG=v1.0.20200413
 COPY --from=bionic ${DOWNLOADS}/ ${DOWNLOADS}/
+
+RUN sed -i -E 's/(deb|security).debian.org/mirrors.163.com/g' /etc/apt/sources.list
+
 RUN apt-get update \
- && apt-get install -y \
-    kernel-wedge \
-    libncurses-dev \
-    fakeroot \
-    cpio \
-    bison \
-    flex \
-    ccache \
-    vim \
-    gnupg2 \
-    locales \
-    bc \
-    kmod \
-    libelf-dev \
-    rsync \
-    gawk  \
-    libudev-dev \
-    pciutils-dev \
- && rm -f /bin/sh && ln -s /bin/bash /bin/sh
+   && apt-get install -y \
+   kernel-wedge \
+   libncurses-dev \
+   fakeroot \
+   cpio \
+   bison \
+   flex \
+   ccache \
+   vim \
+   gnupg2 \
+   locales \
+   bc \
+   kmod \
+   libelf-dev \
+   rsync \
+   gawk  \
+   libudev-dev \
+   pciutils-dev \
+   && rm -f /bin/sh && ln -s /bin/bash /bin/sh
 
 ########## Dapper Configuration #####################
 

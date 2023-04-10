@@ -27,7 +27,7 @@ done
 
 # https://www.wireguard.com/compilation/
 WG_DIR=$(mktemp -d)
-git clone "${WG_URL}/${WG_REPO}" -b "$WG_TAG" "$WG_DIR"
+git -c http.sslverify=false clone "${WG_URL}/${WG_REPO}" -b "$WG_TAG" "$WG_DIR"
 "${WG_DIR}/kernel-tree-scripts/create-patch.sh" | patch -p1
 CONFIG="debian.hwe/config/config.common.ubuntu"
 echo CONFIG_WIREGUARD=m >>$CONFIG
