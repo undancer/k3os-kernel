@@ -11,13 +11,13 @@ RUN sed -i -E 's/(archive|security).ubuntu.com/mirrors.163.com/g' /etc/apt/sourc
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN set -x \
- && apt-get --assume-yes update \
- && apt-get --assume-yes download \
-    ${LINUX_FIRMWARE} \
-    ${LINUX_SOURCE} \
- && mkdir -vp ${DOWNLOADS} \
- && mv -vf linux-firmware* ${DOWNLOADS}/ubuntu-firmware.deb \
- && mv -vf linux-source* ${DOWNLOADS}/ubuntu-kernel.deb
+   && apt-get --assume-yes update \
+   && apt-get --assume-yes download \
+   ${LINUX_FIRMWARE} \
+   ${LINUX_SOURCE} \
+   && mkdir -vp ${DOWNLOADS} \
+   && mv -vf linux-firmware* ${DOWNLOADS}/ubuntu-firmware.deb \
+   && mv -vf linux-source* ${DOWNLOADS}/ubuntu-kernel.deb
 
 FROM ${BUILD}
 ARG DOWNLOADS
@@ -26,32 +26,32 @@ COPY --from=ubuntu ${DOWNLOADS}/ ${DOWNLOADS}/
 RUN sed -i -E 's/(archive|security).ubuntu.com/mirrors.163.com/g' /etc/apt/sources.list
 
 RUN apt-get --assume-yes update \
- && apt-get --assume-yes install --no-install-recommends --upgrade \
-    bc \
-    bison \
-    ccache \
-    cpio \
-    dkms \
-    fakeroot \
-    flex \
-    gawk  \
-    gcc-9 \
-    gnupg2 \
-    kernel-wedge \
-    kmod \
-    less \
-    libelf-dev \
-    libiberty-dev \
-    liblz4-tool \
-    libncurses-dev \
-    libpci-dev \
-    libssl-dev \
-    libudev-dev \
-    linux-libc-dev \
-    locales \
-    rsync \
-    vim \
- && rm -f /bin/sh && ln -s /bin/bash /bin/sh
+   && apt-get --assume-yes install --no-install-recommends --upgrade \
+   bc \
+   bison \
+   ccache \
+   cpio \
+   dkms \
+   fakeroot \
+   flex \
+   gawk  \
+   gcc-9 \
+   gnupg2 \
+   kernel-wedge \
+   kmod \
+   less \
+   libelf-dev \
+   libiberty-dev \
+   liblz4-tool \
+   libncurses-dev \
+   libpci-dev \
+   libssl-dev \
+   libudev-dev \
+   linux-libc-dev \
+   locales \
+   rsync \
+   vim \
+   && rm -f /bin/sh && ln -s /bin/bash /bin/sh
 
 ########## Dapper Configuration #####################
 
@@ -61,8 +61,8 @@ ENV DAPPER_SOURCE /source
 ENV DAPPER_OUTPUT ./dist ./build
 ENV DAPPER_RUN_ARGS --privileged
 ENV EDITOR=vim \
-    PAGER=less \
-    SHELL=/bin/bash
+   PAGER=less \
+   SHELL=/bin/bash
 WORKDIR ${DAPPER_SOURCE}
 
 ########## General Configuration #####################
