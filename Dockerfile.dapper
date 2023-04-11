@@ -6,6 +6,9 @@ FROM ${UBUNTU} AS ubuntu
 ARG DOWNLOADS
 ARG LINUX_FIRMWARE=linux-firmware=1.187.17
 ARG LINUX_SOURCE=linux-source-5.4.0=5.4.0-88.99
+
+RUN sed -i -E 's/(archive|security).ubuntu.com/mirrors.163.com/g' /etc/apt/sources.list
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN set -x \
  && apt-get --assume-yes update \
@@ -19,6 +22,9 @@ RUN set -x \
 FROM ${BUILD}
 ARG DOWNLOADS
 COPY --from=ubuntu ${DOWNLOADS}/ ${DOWNLOADS}/
+
+RUN sed -i -E 's/(archive|security).ubuntu.com/mirrors.163.com/g' /etc/apt/sources.list
+
 RUN apt-get --assume-yes update \
  && apt-get --assume-yes install --no-install-recommends --upgrade \
     bc \
