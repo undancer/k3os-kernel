@@ -4,8 +4,8 @@ ARG DOWNLOADS=/usr/src/downloads
 
 FROM ${UBUNTU} AS ubuntu
 ARG DOWNLOADS
-ARG LINUX_FIRMWARE=linux-firmware=1.187.17
-ARG LINUX_SOURCE=linux-source-5.4.0=5.4.0-88.99
+ARG LINUX_FIRMWARE=linux-firmware=1.187.38
+ARG LINUX_SOURCE=linux-source-5.4.0=5.4.0-146.163
 
 RUN sed -i -E 's/(archive|security).ubuntu.com/mirrors.163.com/g' /etc/apt/sources.list
 
@@ -32,6 +32,7 @@ RUN apt-get --assume-yes update \
    ccache \
    cpio \
    dkms \
+   dwarves \
    fakeroot \
    flex \
    gawk  \
